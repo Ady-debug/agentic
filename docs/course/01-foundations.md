@@ -1,0 +1,60 @@
+# Module 1: Foundations and repo setup
+
+**Time:** 30-45 min | **Tracks:** A, B, C (groundwork) | **Brief:** sections 1, 2
+
+## Why
+
+Before any agent runs, you need a place for it to work and a shared picture of what "done" means. This module builds the repo and the mental model. No agent yet.
+
+## Concepts (read, ~10 min)
+
+1. **Executable specification.** A plain-English scenario that is also an automated test. If code drifts from the behaviour, the build goes red (brief section 1).
+2. **The loop.** Human writes scenarios, tooling turns them into tests (red), agent makes them green, pipeline re-checks, human reviews the *behaviour* diff (brief section 2).
+3. **Three tracks.** Prepare (before the agent), Harness (what the agent is given), Validate (how we know it worked). See the [roadmap](./README.md).
+4. **Advisory vs enforced.** Instructions and skills ask the agent nicely. Hooks, CI and CODEOWNERS make it mechanical. We build advisory first, then enforcement (Phase 2).
+
+Read brief sections 1 and 2 again with this question: *which steps are Prepare, Harness, Validate?* Write your answer in the learning log.
+
+## The toy domain
+
+A small **repayment planner**: a user enters an amount and a number of months and sees the monthly payment. It is simple enough to finish quickly yet has real business rules (validation, rounding, limits), which suit scenarios such as "When I plan to repay £1200 over 12 months, Then my monthly payment is £100.00". We build it feature by feature in later modules.
+
+## You do
+
+1. **Create the GitHub repo.** Everything in the course is built in this folder, so this repo is both the toy app and the home of the harness (we extract the reusable parts at the end, see the [README](./README.md#building-here-exporting-later)). Private or public, your choice. Suggested name: `agentic-toy`. Link it to this folder:
+   ```bash
+   cd /Users/Ady/Documents/agentic
+   gh repo create agentic-toy --private --source=. --remote=origin
+   ```
+2. **Scaffold the app in the repo root.** Choose TypeScript yes, ESLint yes, App Router yes, `src/` directory yes, Tailwind your choice.
+   ```bash
+   npx create-next-app@latest .
+   ```
+   If it complains the folder isn't empty, move `docs/` aside temporarily, or scaffold into a subfolder and move the files up. Understanding why is part of the exercise.
+3. **Run it** with `npm run dev` and open the page. Stop it.
+4. **Add Vitest** (unit layer) now, because it is needed from Module 4. Follow the current [Vitest docs](https://vitest.dev/guide/) and add an `npm test` script. Write one trivial passing test to prove it runs.
+5. **Create a `features/` folder** (add a `.gitkeep`) for the Gherkin files we write next module.
+6. **Commit and push** with the message `module-01: scaffold toy app`.
+7. **Start the [learning log](./learning-log.md)** with an entry for this module.
+
+## Check
+
+- [ ] `npm run dev` serves the default page
+- [ ] `npm test` passes
+- [ ] `npm run lint` passes
+- [ ] The repo is on GitHub and **Actions is enabled** (Settings, Actions)
+- [ ] `docs/` (including the brief and this course) is still in the repo after scaffolding
+- [ ] Learning log has a Module 1 entry, including your Prepare/Harness/Validate classification
+
+## Reflect
+
+- Which brief steps did you class as Prepare, Harness, Validate? Which were hard to place?
+- Where in your team's current process does each track already happen informally?
+
+## Experiment
+
+Ask Copilot (VS Code agent mode) *"Add a repayment calculator to this app"* **without** any scenarios or rules, on a throwaway branch. Note what it produces and how you'd know whether it's right. Delete the branch afterwards. This is your "before" picture; we compare against it after Module 4.
+
+## Next
+
+Module 2: write the first Gherkin scenario, install playwright-bdd, and get the suite red for the right reason.
