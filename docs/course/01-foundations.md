@@ -21,16 +21,23 @@ A small **repayment planner**: a user enters an amount and a number of months an
 
 ## You do
 
-1. **Create the GitHub repo.** Everything in the course is built in this folder, so this repo is both the toy app and the home of the harness (we extract the reusable parts at the end, see the [README](./README.md#building-here-exporting-later)). Private or public, your choice. Suggested name: `agentic-toy`. Link it to this folder:
+1. **Use this repo.** Everything in the course is built in this existing repo, so it is both the toy app and the home of the harness (we extract the reusable parts at the end, see the [README](./README.md#building-here-exporting-later)). No new repo is needed. Check it is linked to GitHub:
    ```bash
    cd /Users/Ady/Documents/agentic
-   gh repo create agentic-toy --private --source=. --remote=origin
+   git remote -v
+   gh repo view --web
    ```
+   Then create a working branch if you prefer not to commit to `main` directly (optional): `git switch -c module-01`.
 2. **Scaffold the app in the repo root.** Choose TypeScript yes, ESLint yes, App Router yes, `src/` directory yes, Tailwind your choice.
    ```bash
    npx create-next-app@latest .
    ```
-   If it complains the folder isn't empty, move `docs/` aside temporarily, or scaffold into a subfolder and move the files up. Understanding why is part of the exercise.
+   The folder is not empty (`docs/`, `README.md`, `.gitignore`), so the scaffolder may refuse or ask to overwrite files. Safest route: scaffold into a temporary subfolder, then move its contents up without overwriting your existing files.
+   ```bash
+   npx create-next-app@latest tmp-app
+   rsync -a --ignore-existing --exclude node_modules --exclude .git tmp-app/ ./
+   ```
+   `--ignore-existing` keeps your `README.md` and `.gitignore`. Append any entries from `tmp-app/.gitignore` that yours lacks (e.g. `node_modules`, `.next`), then `rm -rf tmp-app` and run `npm install` in the root. Check `git status` to confirm `docs/` is untouched. Understanding why the conflict happens is part of the exercise.
 3. **Run it** with `npm run dev` and open the page. Stop it.
 4. **Add Vitest** (unit layer) now, because it is needed from Module 4. Follow the current [Vitest docs](https://vitest.dev/guide/) and add an `npm test` script. Write one trivial passing test to prove it runs.
 5. **Create a `features/` folder** (add a `.gitkeep`) for the Gherkin files we write next module.
